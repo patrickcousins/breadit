@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.NavBackHandler
 import dev.olshevski.navigation.reimagined.NavHost
@@ -70,16 +72,3 @@ class MainActivity : ComponentActivity() {
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    BreaditTheme {
-//        Box(modifier = Modifier
-//            .fillMaxSize(1.0f) // it will fill parent box
-//            .padding(8.dp),
-//            contentAlignment = Alignment.Center) {
-//
-//            LoginScreen(loginViewModel)
-//        }
-//    }
-//}
