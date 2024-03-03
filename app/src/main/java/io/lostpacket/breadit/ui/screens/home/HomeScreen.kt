@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import io.lostpacket.breadit.app.logging.debug
 import io.lostpacket.breadit.ui.theme.BreaditTheme
 import io.lostpacket.breadit.ui.theme.Typography
 
@@ -71,11 +73,15 @@ fun HomeList(items: List<HomeViewModel.PostSummaryStateHolder>) {
 @Composable
 fun HomeItem(post: HomeViewModel.PostSummaryStateHolder) {
 
+    debug(post.toString())
     val title = remember {
         post.title
     }
     val imgUrl = remember {
         post.thumbnail
+    }
+    val score = remember {
+        post.votes
     }
 
     Card(
@@ -85,16 +91,27 @@ fun HomeItem(post: HomeViewModel.PostSummaryStateHolder) {
         )
     ) {
         Row {
-            Column {
+            Column(
+                modifier = Modifier
+                    .padding(all = 16.dp)
+                    .weight(1f, fill = true),
+            ) {
                 Text(
                     text = title,
-                    modifier = Modifier
-                        .padding(all = 16.dp)
-                        .weight(1f, fill = true),
-                    style = Typography.titleMedium
+                    style = Typography.titleMedium,
+                    maxLines = 2,
                 )
-                
+
                 Row {
+
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        contentDescription = "down"
+                    )
+                    Text(
+                        text = score,
+                        style = Typography.labelMedium
+                    )
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowUp,
                         contentDescription = "up"
@@ -120,10 +137,12 @@ fun HomeItem(post: HomeViewModel.PostSummaryStateHolder) {
 @Composable
 fun PreviewItem() {
     BreaditTheme {
-        HomeItem(post = HomeViewModel.PostSummaryStateHolder(
-            title = "Meowurm Mipsum",
-            thumbnail = "https://a.thumbs.redditmedia.com/D4UQxrJ6l68ZTFUNzlgqTWwFkRKNAYmXTrlGOmevXm4.jpg",
-            votes = "1230434"
-        ))
+        HomeItem(
+            post = HomeViewModel.PostSummaryStateHolder(
+                title = "Meowurm Mipsum",
+                thumbnail = "https://a.thumbs.redditmedia.com/D4UQxrJ6l68ZTFUNzlgqTWwFkRKNAYmXTrlGOmevXm4.jpg",
+                votes = "1230434"
+            )
+        )
     }
 }

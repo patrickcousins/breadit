@@ -48,7 +48,7 @@ data class ChildData (
   @Json(name = "is_created_from_ads_ui"        ) var isCreatedFromAdsUi         : Boolean?                     = null,
   @Json(name = "author_premium"                ) var authorPremium              : Boolean?                     = null,
   @Json(name = "thumbnail"                     ) var thumbnail                  : String?                      = null,
-  @Json(name = "edited"                        ) var edited                     : Boolean?                     = null,
+  //@Json(name = "edited"                        ) var edited                     : Boolean?                     = null,
   @Json(name = "author_flair_css_class"        ) var authorFlairCssClass        : String?                      = null,
   @Json(name = "author_flair_richtext"         ) var authorFlairRichtext        : List<LinkFlairRichtext>            = listOf(),
   //@Json(name = "gildings"                      ) var gildings                   : Gildings?                    = Gildings(),

@@ -2,73 +2,61 @@ package io.lostpacket.breadit
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.FragmentActivity
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olshevski.navigation.reimagined.NavBackHandler
-import dev.olshevski.navigation.reimagined.NavHost
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
-import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.rememberNavController
-import io.lostpacket.breadit.app.logging.debug
-import io.lostpacket.breadit.app.nav.Destinations
-import io.lostpacket.breadit.ui.screens.home.HomeScreen
-import io.lostpacket.breadit.ui.screens.login.LoginScreen
-import io.lostpacket.breadit.ui.screens.login.LoginState
+import dagger.hilt.android.EntryPointAccessors
+import io.lostpacket.breadit.app.nav.Nav
 import io.lostpacket.breadit.ui.screens.login.LoginViewModel
-import io.lostpacket.breadit.ui.theme.BreaditTheme
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
 
     private val loginViewModel by viewModels<LoginViewModel>()
+
+    @Inject
+    lateinit var nav: Nav
 
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val isLoggedInInitially = loginViewModel.loggedInStateFlow.value == LoginState.In
-        checkIntentForLoginValues()
-        setContent {
-            BreaditTheme {
 
-                val navController = rememberNavController(
-                    startDestination = if (isLoggedInInitially) {
-                        Destinations.Home
-                    } else {
-                        Destinations.Login
-                    }
-                )
-                NavBackHandler(navController)
-
-                NavHost(navController) { destination ->
-
-                    when (destination) {
-                        is Destinations.Home -> HomeScreen(
-                            homeViewModel = hiltViewModel()
-                        )
-
-                        is Destinations.Login -> LoginScreen(
-                            loginViewModel = loginViewModel,
-                            onLoginSuccess = { navController.navigate(Destinations.Home) }
-                        )
-                    }
-                }
-            }
-        }
+        setContentView(R.layout.activity_main)
+        nav.navigate(Nav.Screen.Login)
     }
 
-    private fun checkIntentForLoginValues() {
-        val intentDataString = intent.data.toString()
-        debug(intentDataString)
 
-        if (intentDataString.startsWith("breadit://")) {
-            loginViewModel.exchangeToken(intentDataString)
-        }
-    }
 }
 
-
+//
+//@Composable
+//fun BreaditMain(isLoggedInInitially: Boolean = false,
+//                loginViewModel: LoginViewModel) {
+//    BreaditTheme {
+//
+//        val navController = rememberNavController(
+//            startDestination = if (isLoggedInInitially) {
+//                Destinations.Home
+//            } else {
+//                Destinations.Login
+//            }
+//        )
+//        NavBackHandler(navController)
+//
+//        NavHost(navController) { destination ->
+//
+//            when (destination) {
+//                is Destinations.Home -> HomeScreen(
+//                    homeViewModel = hiltViewModel()
+//                )
+//
+//                is Destinations.Login -> LoginScreen(
+//                    loginViewModel = loginViewModel,
+//                    onLoginSuccess = { navController.navigate(Destinations.Home) }
+//                )
+//            }
+//        }
+//    }
+//}
