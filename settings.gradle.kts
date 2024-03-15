@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Breadit"
+rootProject.name = "breadit"
 include(":app")
  
